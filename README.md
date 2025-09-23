@@ -1,37 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Império Urbano
 
-## Getting Started
+**Império Urbano** é um jogo de tabuleiro digital inspirado no clássico Banco Imobiliário, reinventado para a era moderna. Jogadores interagem simultaneamente usando seus celulares enquanto acompanham o tabuleiro em uma TV, criando uma experiência social, dinâmica e cheia de animações.
 
-First, run the development server:
+## 🏙️ Visão do projeto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Multiplataforma:** TV como tabuleiro principal + celulares como controles individuais.  
+- **Interatividade:** rolagem de dados, compra e venda de propriedades, e movimentação de peças em tempo real.  
+- **Autenticação:** login real para cada jogador (planejado).  
+- **Tecnologia:** Next.js + TypeScript + Tailwind CSS, com backend Prisma/PostgreSQL para persistência de salas e jogadores.  
+- **Foco no jogador:** experiência visual rica, sons e animações para tornar o jogo mais divertido que o tabuleiro físico.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Objetivo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Criar uma versão moderna e interativa do clássico jogo de estratégia financeira, permitindo partidas rápidas, engajamento social e uma experiência visual imersiva.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚡ Status Atual
 
-## Learn More
+- Estrutura básica do projeto criada (`src/app`, `components`, `styles`)  
+- Tailwind CSS v4 funcionando  
+- Página Home mínima implementada  
+- Placeholder de componentes TV e celular prontos para desenvolvimento da primeira feature: **pareamento TV ↔ celular**  
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Próximos Passos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ImperioUrbano
+1. Implementar pareamento de sala entre TV e celulares  
+2. Criar autenticação de jogadores  
+3. Implementar movimentação de peças, rolagem de dados e compra de propriedades  
+4. Incrementar animações, sons e UI interativa
