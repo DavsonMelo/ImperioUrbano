@@ -14,6 +14,9 @@
 
 Criar uma versão moderna e interativa do clássico jogo de estratégia financeira, permitindo partidas rápidas, engajamento social e uma experiência visual imersiva.
 
+## 📖 Regras  
+Confira as regras adaptadas para o digital aqui: [Regras do Jogo](./docs/7.%20Regras%20do%20jogo%20-%20DIGITAL.md)
+
 ## ⚡ Status Atual
 
 - Estrutura básica do projeto criada (`src/app`, `components`, `styles`)  

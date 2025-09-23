@@ -1,18 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id       String   @id @default(cuid())
-  email    String   @unique
-  name     String?
-  password String
-  createdAt DateTime @default(now())
+datasource db {
+  provider = "sqlite" // depois trocamos pra "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Room {
@@ -20,14 +12,24 @@ model Room {
   code      String   @unique
   createdAt DateTime @default(now())
   players   Player[]
+  gameState GameState?
 }
 
 model Player {
   id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  room      Room     @relation(fields: [roomId], references: [id])
+  name      String
+  balance   Int      @default(1500) // saldo inicial padrão
+  position  Int      @default(0)    // posição no tabuleiro
   roomId    String
-  turnOrder Int
-  balance   Int      @default(1500)
+  room      Room     @relation(fields: [roomId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model GameState {
+  id        String   @id @default(cuid())
+  roomId    String   @unique
+  room      Room     @relation(fields: [roomId], references: [id])
+  turn      Int      @default(0) // indica o turno/jogador atual
+  status    String   @default("waiting") // waiting | active | finished
+  createdAt DateTime @default(now())
 }
