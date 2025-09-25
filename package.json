@@ -8,23 +8,25 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
     "@prisma/client": "^6.16.2",
     "next": "15.5.3",
     "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
+    "postcss": "^8.5.6",
     "prisma": "^6.16.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "sass": "^1.93.2",
     "supertokens-auth-react": "^0.50.0",
-    "supertokens-node": "^23.0.1"
+    "supertokens-node": "^23.0.1",
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.13",
     "tsx": "^4.20.5",
     "typescript": "^5"
   }

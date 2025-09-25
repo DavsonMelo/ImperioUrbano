@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
-import "../styles/globals.css";
-
+import type { Metadata } from 'next';
+import { fontVariables } from '@/lib/fonts/fonts';
+import './globals.css';
+import Header from '@/components/header';
+import { ThemeProvider } from 'next-themes';
 
 export const metadata: Metadata = {
-  title: "Império Urbano - O Game",
-  description: "Jogo no estilo banco imobiliário, ou monopólio.",
+  title: 'Império Urbano - O Game',
+  description: 'Jogo no estilo banco imobiliário, ou monopólio.',
 };
 
 export default function RootLayout({
@@ -13,11 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
-        {children}
+    <html lang="pt-br" suppressHydrationWarning>
+      <body className={`antialiased ${fontVariables}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
