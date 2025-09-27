@@ -1,77 +1,125 @@
-'use client'; // Necessário para componentes que usam hooks do lado do cliente no Next.js 13+
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BoardItem } from '@/components/board_assets/BoardItem';
+import { boardAssets } from '@/components/board_assets/BoardAssets';
+import Image from 'next/image';
 
 export default function Home() {
+  const [selectedCard, setSelectedCard] = useState<
+    null | keyof typeof boardAssets
+  >(null);
+  const [progress, setProgress] = useState(0);
+  const timeoutRef = useRef<number | null>(null);
+  const intervalRef = useRef<number | null>(null);
+
+  const duration = 7000; // 15 segundos
+
+  const handleSelectCard = (type: keyof typeof boardAssets) => {
+    setSelectedCard(type);
+    setProgress(0);
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
+    timeoutRef.current = window.setTimeout(() => {
+      setSelectedCard(null);
+      setProgress(0);
+      timeoutRef.current = null;
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }, duration);
+
+    const start = Date.now();
+    intervalRef.current = window.setInterval(() => {
+      const elapsed = Date.now() - start;
+      setProgress(Math.min((elapsed / duration) * 100, 100));
+    }, 100);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
+
   return (
-    <div>
-      <h1>home</h1>
+    <div className="flex justify-center items-center pt-28 px-5">
+      <div className="relative inline-block">
+        {/* Tabuleiro */}
+        <img
+          src="/board_home_icons/base.svg"
+          alt="Tabuleiro de Monopoly"
+          className="block w-full max-w-[800px] h-auto"
+        />
+
+        {/* Itens do tabuleiro */}
+        <BoardItem
+          type="park"
+          alt="Parque"
+          onClick={() => handleSelectCard('park')}
+        />
+        <BoardItem
+          type="jail"
+          alt="Prisão"
+          onClick={() => handleSelectCard('jail')}
+        />
+
+        {/* Banner/Carta no centro */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] max-w-[80%] bg-white/95 backdrop-blur-sm shadow-lg rounded-xl overflow-hidden">
+          <AnimatePresence mode="wait">
+            {selectedCard ? (
+              <motion.div
+                key="card"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.4 }}
+                className="p-4 flex flex-col items-center"
+              >
+                <Image
+                  src={`/board_home_icons/${selectedCard}.jpg`}
+                  alt={`Carta ${selectedCard}`}
+                  width={300}
+                  height={300}
+                  className="max-w-[220px] h-auto mb-2 object-contain rounded-2xl"
+                />
+                <p className="text-sm text-center text-black">
+                  {boardAssets[selectedCard].description}
+                </p>
+                {/* Barra de progresso */}
+                <div className="w-full h-2 bg-gray-200 rounded-full mt-3 overflow-hidden">
+                  <div
+                    className="h-2 bg-blue-500 transition-all duration-100"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="banner"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.4 }}
+                className="p-4 flex flex-col items-center"
+              >
+                <Image
+                  src="/board_home_icons/banner.svg"
+                  alt="Banner Monopoly"
+                  width={200}
+                  height={200}
+                  className="w-full h-auto mb-2"
+                />
+                <h2 className="text-lg font-bold text-black">Monopoly Versão 0.0.1</h2>
+                <p className="text-sm text-black">
+                  Bem-vindo! Clique nos itens para descobrir suas cartas.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }
-
-// const [code, setCode] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   async function createRoom() {
-//     setLoading(true);
-//     try {
-//       const res = await fetch("/api/room/create", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ code: generateCode() }),
-//       });
-
-//       if (!res.ok) throw new Error("Erro ao criar sala");
-
-//       const room = await res.json();
-//       console.log("Sala criada:", room);
-
-//       // redireciona para a página da sala
-//       window.location.href = `/room/${room.code}`;
-//     } catch (err) {
-//       console.error(err);
-//       alert("Erro ao criar sala");
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   async function joinRoom() {
-//     if (!code) return alert("Digite o código da sala!");
-
-//     // ainda vamos implementar /api/room/join
-//     window.location.href = `/room/${code}`;
-//   }
-
-//   function generateCode() {
-//     return Math.random().toString(36).substring(2, 8).toUpperCase();
-//   }
-
-// <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-6">
-//   <h1 className="text-4xl font-bold mb-8">🏙️ Império Urbano</h1>
-
-//   <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-full max-w-md">
-//     <button
-//       onClick={createRoom}
-//       disabled={loading}
-//       className="w-full py-3 px-4 bg-green-500 hover:bg-green-600 rounded-xl font-semibold transition mb-4"
-//     >
-//       {loading ? "Criando..." : "Criar novo jogo"}
-//     </button>
-
-//     <div className="flex items-center gap-2">
-//       <input
-//         type="text"
-//         placeholder="Código da sala"
-//         value={code}
-//         onChange={(e) => setCode(e.target.value.toUpperCase())}
-//         className="flex-1 px-4 py-3 rounded-xl text-black"
-//       />
-//       <button
-//         onClick={joinRoom}
-//         className="py-3 px-4 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition"
-//       >
-//         Entrar
-//       </button>
-//     </div>
-//   </div>
-// </main>
